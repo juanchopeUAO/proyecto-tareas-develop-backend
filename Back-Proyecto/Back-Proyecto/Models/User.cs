@@ -8,6 +8,7 @@ namespace Back_Proyecto.Models
     {
         
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public  int id { get; set; } 
 
         [Required]

@@ -10,6 +10,9 @@ builder.Services.AddDbContext<MyDbContext>(options =>
 options.UseSqlServer("name=ConnectionStrings:Connection"));
 
 // Add services to the container.
+builder.Services.AddTransient<RegistrationService, RegistrationService>();
+builder.Services.AddTransient<AuthenticationService>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
