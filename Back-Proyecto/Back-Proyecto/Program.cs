@@ -52,6 +52,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+//habilitar los nuevos cors
+app.UseCors("NuevaPolitica");
 
 app.UseAuthentication();
 
