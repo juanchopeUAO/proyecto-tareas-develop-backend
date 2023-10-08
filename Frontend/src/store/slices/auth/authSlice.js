@@ -1,14 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+/* eslint-disable no-param-reassign */
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  user: JSON.parse(window.localStorage.getItem("user")) || null,
-  token: window.localStorage.getItem("token") || null,
-  isAuthenticating: !!window.localStorage.getItem("token"),
+  user: JSON.parse(window.localStorage.getItem('user')) || null,
+  token: window.localStorage.getItem('token') || null,
+  isAuthenticating: !!window.localStorage.getItem('token'),
   error: null,
 };
 
 export const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
     loginSuccess: (state, action) => {
@@ -25,5 +26,4 @@ export const authSlice = createSlice({
   },
 });
 
-export const { loginSuccess, loginFailed } =
-  authSlice.actions;
+export const { loginSuccess, loginFailed } = authSlice.actions;
