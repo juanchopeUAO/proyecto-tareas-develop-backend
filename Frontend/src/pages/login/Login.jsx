@@ -11,8 +11,8 @@ export function Login() {
   const dispatch = useDispatch();
   const { isAuthenticating, error } = useSelector((state) => state.user);
 
-  const [email, setEmail] = useState('harold@hotmail.com');
-  const [password, setPassword] = useState('harold123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isEmpty, setIsEmpty] = useState(false);
 
   const handleLogin = (e) => {

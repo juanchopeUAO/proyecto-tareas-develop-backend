@@ -3,3 +3,9 @@
 **/.idea/**
 Back-Proyecto/.vs/
 Back-Proyecto/**/obj/**
+
+**/.vs/
+**/.vs/**
+**/obj/
+**/obj/**
+**/bin/
