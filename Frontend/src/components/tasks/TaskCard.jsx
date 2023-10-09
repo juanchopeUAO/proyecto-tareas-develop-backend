@@ -4,17 +4,18 @@ import { PRIORITIES, STATUS } from '../../common/contants';
 import { Modal } from '../shared/Modal';
 import { DeleteModal } from './DeleteModal';
 import { assignmentsService } from '../../services/assigementService';
+import pencil from '../../assets/pencil.svg';
 
-export function TaskCard({ task }) {
+export function TaskCard({ task, toogleEdit, getOldTask }) {
   const [isActive, setIsActive] = useState(false);
 
   const priorityStyles = () => {
     if (task.priority === PRIORITIES.ALTA) {
       return 'bg-warn text-white';
     } if (task.priority === PRIORITIES.MEDIA) {
-      return 'bg-[#8FBC8B] text-white';
+      return 'bg-[#8FBC8B] textbalck';
     } if (task.priority === PRIORITIES.BAJA) {
-      return 'bg-[#D3D3D3] text-white';
+      return 'bg-[#D3D3D3] text-balck';
     }
     return '';
   };
@@ -22,10 +23,15 @@ export function TaskCard({ task }) {
   const stateStyles = () => {
     if (task.state === STATUS.EN_PROGRESO) {
       return 'bg-gray-400';
-    } if (task.state === STATUS.COMPLETADA) {
+    } if (task.state === STATUS.TERMINADO) {
       return 'bg-green-400';
     }
     return '';
+  };
+
+  const handleEdit = () => {
+    toogleEdit();
+    getOldTask(task);
   };
 
   const toogle = () => {
@@ -33,7 +39,8 @@ export function TaskCard({ task }) {
   };
 
   const completeTask = async () => {
-    const newTask = { ...task, state: STATUS.COMPLETADA };
+    const newState = task.state === STATUS.EN_PROGRESO ? STATUS.TERMINADO : STATUS.EN_PROGRESO;
+    const newTask = { ...task, state: newState };
     await assignmentsService.update(newTask.id, newTask);
     window.location.reload();
   };
@@ -53,6 +60,9 @@ export function TaskCard({ task }) {
               {' '}
               <span className={`p-1.5 rounded-md ${priorityStyles()}`}>{task.priority}</span>
             </p>
+            <button onClick={handleEdit} type="button">
+              <img src={pencil} alt="" className="w-7 text-center" />
+            </button>
           </div>
           <p className="text-xl font-medium text-black">
             {task.title}
@@ -85,4 +95,6 @@ TaskCard.propTypes = {
     state: PropTypes.string,
     id: PropTypes.number,
   }).isRequired,
+  toogleEdit: PropTypes.func.isRequired,
+  getOldTask: PropTypes.func.isRequired,
 };

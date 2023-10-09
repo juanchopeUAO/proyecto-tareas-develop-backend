@@ -7,6 +7,9 @@ import { assignmentsService } from '../../services/assigementService';
 
 export function Home() {
   const [isActive, setIsActive] = useState(false);
+  const [isEdited, setIsEdited] = useState(false);
+  const [oldTask, setOldTask] = useState();
+
   const [task, setTask] = useState({
     id: '1',
     title: 'Comprar leche',
@@ -14,8 +17,18 @@ export function Home() {
     priority: 'Alta',
     state: 'Completada',
   });
+
   const toogle = () => {
     setIsActive(!isActive);
+  };
+
+  const toogleEdit = () => {
+    setIsEdited(!isEdited);
+    setIsActive(!isActive);
+  };
+
+  const getOldTask = (taskEdit) => {
+    setOldTask(taskEdit);
   };
 
   useEffect(() => {
@@ -29,14 +42,14 @@ export function Home() {
   return (
     <>
       <Navbar toogle={toogle} />
-      <div className="h-auto w-full gap-4 p-3 grid grid-flow-col auto-cols-max">
+      <div className="h-full w-full gap-4 p-3 grid grid-cols-1 justify-items-center lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
         {task.length > 0 && task?.map((item) => (
-          <TaskCard key={item.id} task={item} />
+          <TaskCard key={item.id} task={item} isEdited toogleEdit={toogleEdit} getOldTask={getOldTask} />
         ))}
       </div>
 
       <Modal active={isActive} toogle={toogle}>
-        <TaskForm />
+        <TaskForm isEdited toogleEdit={toogleEdit} oldTask={oldTask} />
       </Modal>
     </>
   );

@@ -66,7 +66,7 @@ namespace Back_Proyecto.Controllers
 
             try
             {
-                _assignmentService.UpdateAssignment(assignment);
+                _assignmentService.UpdateAssignment(assignment, id);
                 return NoContent();
             }
             catch (Exception ex)

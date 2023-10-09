@@ -1,10 +1,11 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { assignmentsService } from '../../services/assigementService';
 
-export function TaskForm() {
+export function TaskForm({ isEdited, oldTask }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [priority, setPriority] = useState('Media');
@@ -22,7 +23,34 @@ export function TaskForm() {
     setTitle('');
     setDescription('');
     setPriority('Media');
+    window.location.reload();
   };
+
+  const handleEdit = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const task = {
+      ...oldTask,
+      title,
+      description,
+      priority,
+    };
+
+    assignmentsService.update(task.id, task);
+    setTitle('');
+    setDescription('');
+    setPriority('Media');
+    window.location.reload();
+  };
+
+  useEffect(
+    () => {
+      setTitle(oldTask?.title);
+      setDescription(oldTask?.description);
+      setPriority(oldTask?.priority);
+    },
+    [oldTask],
+  );
 
   return (
     <form
@@ -93,7 +121,7 @@ export function TaskForm() {
       <div className="w-64">
         <button
           type="submit"
-          onClick={handleSubmit}
+          onClick={isEdited ? handleEdit : handleSubmit}
           className="bg-base w-full hover:bg-base text-white py-2 px-4 rounded"
         >
           Guardar
@@ -102,3 +130,11 @@ export function TaskForm() {
     </form>
   );
 }
+
+TaskForm.propTypes = {
+  oldTask: PropTypes.shape({
+    title: PropTypes.string,
+    description: PropTypes.string,
+    priority: PropTypes.string,
+  }).isRequired,
+};

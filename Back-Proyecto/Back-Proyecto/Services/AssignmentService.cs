@@ -31,15 +31,26 @@ namespace Back_Proyecto.Services
             _context.SaveChanges();
         }
 
-        public void UpdateAssignment(Assignment assignment)
+        public void UpdateAssignment(Assignment assignment, int id)
         {
-            if (assignment == null)
+            try
             {
-                throw new ArgumentNullException(nameof(assignment));
+                if (assignment == null)
+                {
+                    throw new ArgumentNullException(nameof(assignment));
+                }
+                var assignmentToUpdate = _context.Assignment.Where(a => a.id == id).FirstOrDefault();
+                if (assignmentToUpdate == null)
+                {
+                    throw new ArgumentNullException(nameof(assignmentToUpdate));
+                }
+                _context.Entry(assignmentToUpdate).CurrentValues.SetValues(assignment);
+                _context.SaveChanges();
             }
-
-            _context.Entry(assignment).State = EntityState.Modified;
-            _context.SaveChanges();
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
         public List<Assignment> GetAssignmentsByUserId(int userId)
         {
