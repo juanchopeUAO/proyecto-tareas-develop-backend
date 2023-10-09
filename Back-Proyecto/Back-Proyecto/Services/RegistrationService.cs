@@ -18,7 +18,7 @@ public class RegistrationService
     {
         try
         {
-            if (_myDbContext.User.Any(x => x.email == registro.email))
+            if (_myDbContext.Users.Any(x => x.email == registro.email))
             {
                 return new RegistrationResult
                 {
@@ -30,13 +30,13 @@ public class RegistrationService
 
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(registro.password);
 
-            var nuevoUsuario = new User
+            var nuevoUsuario = new Users
             {
                 email = registro.email,
                 password = hashedPassword
             };
 
-            _myDbContext.User.Add(nuevoUsuario);
+            _myDbContext.Users.Add(nuevoUsuario);
             await _myDbContext.SaveChangesAsync();
 
             return new RegistrationResult

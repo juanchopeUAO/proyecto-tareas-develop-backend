@@ -18,10 +18,9 @@ public class AuthenticationService
         _myDbContext = myDbContext;
         _configuration = configuration;
     }
-
     public dynamic Authenticate(string email, string password)
     {
-        User user = _myDbContext.User.FirstOrDefault(x => x.email == email);
+        Users user = _myDbContext.Users .FirstOrDefault(x => x.email == email);
 
         if (user == null)
         {
@@ -38,29 +37,29 @@ public class AuthenticationService
             var jwt = _configuration.GetSection("Jwt").Get<Jwt>();
 
             var claims = new[]
-            {
+              {
                 new Claim(JwtRegisteredClaimNames.Sub, jwt.Subject),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                new Claim("id", user.id.ToString()),
+                new Claim("id", user.id.ToString()),  // Aquí se incluye la reclamación "id"
                 new Claim("email", user.email),
             };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key));
+                        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key));
             var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
                 jwt.Issuer,
                 jwt.Audience,
                 claims,
-                expires: DateTime.Now.AddMinutes(4),
+                expires: DateTime.Now.AddMinutes(60),
                 signingCredentials: signIn
             );
             return new
             {
                 success = true,
                 message = "exito",
-                result = new JwtSecurityTokenHandler().WriteToken(token)
+                result = new JwtSecurityTokenHandler().WriteToken(token),
+                userId = user.id,
             };
         }
         else

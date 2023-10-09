@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Back_Proyecto.Models;
-
+using System.Security.Claims;
 
 [ApiController]
 [Route("user")]
@@ -14,9 +14,10 @@ public class UserController : ControllerBase
         _authenticationService = authenticationService;
         _registrationService = registrationService;
     }
+
     [HttpPost]
     [Route("login")]
-    public IActionResult IniciarSesion([FromBody] User request)
+    public IActionResult IniciarSesion([FromBody] Users request)
     {
         try
         {
@@ -27,13 +28,14 @@ public class UserController : ControllerBase
 
             var result = _authenticationService.Authenticate(request.email, request.password);
 
-            
-            return Ok(new
+            if (result.success)
             {
-                result.success,
-                result.message,
-                result.result
-            });
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
         }
         catch (Exception ex)
         {
@@ -45,9 +47,5 @@ public class UserController : ControllerBase
             });
         }
     }
-
-
-
 }
-
 
