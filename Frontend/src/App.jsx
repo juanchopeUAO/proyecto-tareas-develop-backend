@@ -1,7 +1,10 @@
-import { Loading, ProtectedRouter } from "./components";
-import { Login, Home, ResetPassword, Register } from "./pages";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useSelector } from "react-redux";
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Loading, ProtectedRouter } from './components';
+import {
+  Login, Home, ResetPassword, Register,
+} from './pages';
 
 function App() {
   const { isLoading } = useSelector((state) => state.loading);

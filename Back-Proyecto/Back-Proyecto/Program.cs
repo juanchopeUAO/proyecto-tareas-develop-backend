@@ -1,4 +1,5 @@
 using Back_Proyecto.Models;
+using Back_Proyecto.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -12,6 +13,9 @@ options.UseSqlServer("name=ConnectionStrings:Connection"));
 // Add services to the container.
 builder.Services.AddTransient<RegistrationService, RegistrationService>();
 builder.Services.AddTransient<AuthenticationService>();
+builder.Services.AddTransient<AssignmentService>();
+
+
 
 
 builder.Services.AddControllers();

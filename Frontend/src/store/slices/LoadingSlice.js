@@ -1,11 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+/* eslint-disable no-param-reassign */
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isLoading: false,
 };
 
 export const loadingSlice = createSlice({
-  name: "loading",
+  name: 'loading',
   initialState,
   reducers: {
     startLoading: (state) => {
