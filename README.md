@@ -3,7 +3,7 @@
 
 ## Requisitos Funcionales:
 
-### Inicio de Sesión de Usuario:
+### Inicio de Sesión de Usuario: 
 
 * Los usuarios registrados deben poder iniciar sesión utilizando su correo electrónico y contraseña.
 
